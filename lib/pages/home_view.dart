@@ -26,24 +26,26 @@ class _HomeViewState extends State<HomeView> {
     NewsId(id: 'buzzfeed', name: 'BuzzFeed'),
     NewsId(id: 'the-verge', name: 'The Verge'),
     NewsId(id: 'bbc-news', name: 'BBC News'),
-    NewsId(id: 'the-times-of-india', name: 'The Times Of India')
+    NewsId(id: 'the-times-of-india', name: 'The Times Of India'),
+    NewsId(id: 'wired', name: 'Wired'),
+    NewsId(id: 'techcrunch', name: 'Techrunch'),
+    NewsId(id: 'bbc-sport', name: 'BBC-Sport'),
+
+
+
   ];
 
 
 
   Future<List<News>> fetchNews(String id) async{
-    String url = Constant.base_url + 'sources=$id&apikey=${Constant.key}';
-    try {
+    String url = Constant.base_url + 'sources=$id&apiKey=${Constant.key}';
+    print(url);
       final response = await http.get(url);
       final parsed = await json.decode(response.body);
 
-      return (parsed["articles"] as List)
-          .map<News>((json) => new News.fromJson(json))
-          .toList();
-    }on TimeoutException catch (e){
-      print(e);
-      return null;
-    }
+      Iterable list = parsed['articles'];
+      print('yes');
+      return list.map((model) => News.fromJson(model)).toList();
 
   }
 
@@ -54,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, snapshot){
         switch (snapshot.connectionState) {
           case(ConnectionState.done):
+            print('connected');
             if(snapshot.data==null){
               return Center(
                 child: Text(
@@ -75,7 +78,11 @@ class _HomeViewState extends State<HomeView> {
       }
     );
   }
-
+  @override
+  void initState() {
+    fetchNews(news[0].id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -86,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
           centerTitle: true,
           bottom: TabBar(
             isScrollable: true,
-              tabs: List<Widget>.generate(news.length, (index) => Tab(
+              tabs: List<Tab>.generate(news.length, (index) => Tab(
             child: Text(news[index].name),
           ))
           ),

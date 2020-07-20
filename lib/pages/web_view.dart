@@ -1,43 +1,44 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 
-class WebView extends StatefulWidget {
+
+
+class WebNews extends StatefulWidget {
 
   final String url;
   final String title;
 
-  const WebView(this.url, this.title);
-
-
+  const WebNews(this.url, this.title);
   @override
-  _WebViewState createState() => _WebViewState();
+  _WebNewsState createState() => _WebNewsState();
 }
 
-class _WebViewState extends State<WebView> {
+class _WebNewsState extends State<WebNews> {
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-        leading: BackButton(
-        ),
 
-      ),
-      body: SafeArea(
-        child: new Column(
-          children: <Widget>[
-            MaterialApp(
-              routes: {
-                "/": (_) => new WebviewScaffold(
-                  url: widget.url
-                )
-              },
-            ),
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          centerTitle: true,
+          leading: BackButton(
+          ),
+
         ),
-      ),
+        body: WebView(
+          initialUrl: widget.url,
+          javascriptMode: JavascriptMode.unrestricted,
+
+        )
+
+
+
     );
   }
 }
+
