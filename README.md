@@ -1,6 +1,8 @@
 # news_app
 
-A News Application Built using flutter.
+A News app.
+
+Built using Flutter
 
 ## Screen Shots
 
