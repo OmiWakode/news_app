@@ -1,6 +1,6 @@
 # news_app
 
-A News app.
+A News app which has news from various sources.
 
 Built using Flutter
 
